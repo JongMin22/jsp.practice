@@ -15,12 +15,14 @@ int randomNum(){
 			}
 
 %>
-<% 
+<%
+int currentNum=0;
+out.println("페이지 방문자수 : " +  ++count +"</br>");
+out.println("고정 숫자 : " +  currentNum);
 int a = randomNum();
-out.println("<h1>"+"랜덤 구구단"+"("+a+"단)");
+out.println("<h1>"+"랜덤 구구단"+"("+a+"단)" +"</h1>");
 for(int i=1; i<10; i++){
-		 out.println(a + " * "+ i + " = " + a*i);
-		 %>	 
-
-</body>
+		 out.println("<h2>"+a + " * "+ i + " = " + a*i + "</h2>");}
+%>
+<body>
 </html>
