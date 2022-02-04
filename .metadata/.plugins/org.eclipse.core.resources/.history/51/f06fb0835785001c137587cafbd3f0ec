@@ -1,0 +1,26 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+	String strcm = request.getParameter("height");
+	String strkg = request.getParameter("weight");
+	
+	double cm = Double.parseDouble("height");
+	double kg = Double.parseDouble("weight");
+	double bmi = kg / (cm/100 * cm/100);
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>BMI 계산 웹어플리케이션</h1>
+<hr>
+<p>
+- 신장 : <%= strcm %>cm <br/>
+- 체중 : <%= strkg %>kg <br/>
+</p> 
+
+</body>
+</html>
