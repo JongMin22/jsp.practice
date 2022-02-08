@@ -8,7 +8,7 @@
 	if(autoLogin != null){
 	Cookie auto = new Cookie("auto_login",userId);
 	// 쿠키 생성했으면 발급까지 처리해야함.
-	auto.setMaxAge(50);
+	auto.setMaxAge(50); 
 	response.addCookie(auto);
 
 	// 쿠키 발급 여부와 상관없이 로그인에 성공했으므로 웰컴페이지로 이동.
