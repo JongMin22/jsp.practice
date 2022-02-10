@@ -29,7 +29,7 @@ public class JDBCSelectQ1 {
 			// SELECT 문을 실행한 결과 자료는 ResultSet 이라는 자료로 받을 수 있습니다.
 			
 			// stmt.excuteUpdate()는 SELECT이외의 구문, INSERT와 DELETE와 UPDATE를 실행할 때 씁니다.
-			ResultSet rs = stmt.executeQuery("SELECT * FROM userinfo");
+			
 			// Scanner를 이용해 uid를 입력받은 다음 
 			// 방금한 SELECT 구문을 응용해서 
 			// WHERE uid = 입력받은 아이디
@@ -42,17 +42,17 @@ public class JDBCSelectQ1 {
 			// 힌트 : uid='" + 변수명 + "'"
 			Scanner scan =  new Scanner(System.in);
 			String uid = scan.nextLine();
-			
+			ResultSet rs = stmt.executeQuery("SELECT * FROM userinfo WHERE uid = '"+uid+"'");
 			while(rs.next()) {
-			if(rs.getString("uid").equals(uid)) {
+			
 				System.out.println(rs.getString("uid")+"의 정보입니다.");
 				System.out.println(rs.getString(1));
 				System.out.println(rs.getString(2));
 				System.out.println(rs.getString(3));
 				System.out.println(rs.getString(4));
-				break;
+			
 			}
-			}
+			
 			}	
 			catch(Exception e) {
 				e.printStackTrace();
