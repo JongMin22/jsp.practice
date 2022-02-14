@@ -27,13 +27,23 @@
 	 		pstmt.setString(1, fId);
 	 		ResultSet rs = pstmt.executeQuery();
 	 		
-	 		while(rs.next()){
-	 		if(fId.equals(rs.getString(2))){
-	 			if(fPw.equals(rs.getString(3))){
-	 				session.setAttribute("session_id", fId);
-	 				session.setMaxInactiveInterval(360);
+	 		if(rs.next()){
+	 			String uId =rs.getString("uid");
+	 			String uPw =rs.getString("upw");
+	 			String uName =rs.getString("uname");
+	 			String uEmail =rs.getString("uemail");
+	 			
+	 		if(fId.equals(rs.getString(2)) && fPw.equals(rs.getString(3))){
+	 			out.println("<h1>"+fId+"님 로그인에 성공하셨습니다.</h1>");
+	 				session.setAttribute("session_id", uId);
+	 				session.setAttribute("session_pw", uPw);
+	 				session.setAttribute("session_name", uName);
+	 				session.setAttribute("session_email", uEmail);
+	 				
 	 				response.sendRedirect("login_welcome.jsp");
-	 			}}}		
+	 			}else{out.println("<h1>비밀번호가 틀렸습니다. 다시 확인해주세요.<h1/>");}
+	 		}
+	 		else{out.println("<h1>아이디가 없습니다. 다시 확인해주세요.");}
 			con.close();
 			pstmt.close();
 	 	}
