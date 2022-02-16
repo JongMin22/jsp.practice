@@ -21,5 +21,7 @@
 <a href="login_update.jsp">정보수정하기</a><br/>
 <a href="logout.jsp">로그아웃하기</a><br/> <!--  세션 파기 후 login_form.jsp -->
 <a href="member_out.jsp">회원탈퇴하기</a><!--  회원탈퇴를 위해 member_out.jsp를 만들어보겠습니다. -->
+<!--  회원목록보기 링크를 만들어주세요. -->
+<a href="user_list2.jsp">회원목록보기.</a>
 </body>
 </html>

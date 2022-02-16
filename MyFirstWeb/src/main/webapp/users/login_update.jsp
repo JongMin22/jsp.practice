@@ -13,9 +13,9 @@
 // 5. 하단 form의 value에 해당하는 변수에 든 값이 들어가도록 설정합니다.
 
 
-String sId = (String)session.getAttribute("session_id");
+ String sId = (String)session.getAttribute("session_id");
 // 상위지역에서 미리 tName, tEmail을 표현을 해놓기.
-String tName = "";
+ String tName = "";
 String tEmail ="";
 
 if(sId == null){
@@ -48,6 +48,8 @@ catch(Exception e) {
 	finally{
 		
 	}
+
+	
 	%>
 <!DOCTYPE html>
 <html>
