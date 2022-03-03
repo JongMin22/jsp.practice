@@ -1,5 +1,4 @@
 #Tomcat publish data
-#Wed Feb 16 15:55:05 KST 2022
+#Thu Mar 03 11:17:50 KST 2022
 org.eclipse.jst.jee.server\:JDBCPrj=C\:\\apache-tomcat-9.0.58\\wtpwebapps\\JDBCPrj
-org.eclipse.jst.jee.server\:JSPBasic=C\:\\apache-tomcat-9.0.58\\wtpwebapps\\JSPBasic
 org.eclipse.jst.jee.server\:MyFirstWeb=C\:\\apache-tomcat-9.0.58\\wtpwebapps\\MyFirstWeb

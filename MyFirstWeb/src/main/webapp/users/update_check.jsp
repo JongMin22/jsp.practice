@@ -1,3 +1,4 @@
+<%@page import="kr.co.ict.UserDAO"%>
 <%@page import="javax.print.attribute.HashPrintRequestAttributeSet"%>
 <%@page import="java.sql.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -11,9 +12,9 @@
    String uEmail = request.getParameter("email");
    
 	// 2. session에 저장된 아이디를 변수로 저장해주세요.
-	String id = (String)session.getAttribute("session_id");
+	String sId = (String)session.getAttribute("session_id");
 	// 3. DB접속정보 변수로 관리.
-	String dbType = "com.mysql.cj.jdbc.Driver";
+/*	String dbType = "com.mysql.cj.jdbc.Driver";
 	String dbUrl = "jdbc:mysql://localhost:3306/jdbcprac1"; 
 	String dbId = "root";
 	String dbPw = "mysql";
@@ -41,7 +42,10 @@
 	 	}
 		catch(Exception e) {
 		e.printStackTrace();
-	}
+	}*/
+		UserDAO dao = UserDAO.getInstance();
+		dao.updateCheck(sId, uName, uPw, uEmail); 
+	
 	%>
 		
 	
