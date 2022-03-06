@@ -11,10 +11,11 @@ public class UserDAO {
 	//DAO 클래스는 DB연동을 전달하여 처리합니다.
 
 	//DB접속에 필요한 변수들을 아래에 선언합니다.
-	private String dbType = "com.mysql.cj.jdbc.Driver";
-	private String dbUrl = "jdbc:mysql://localhost:3306/jdbcprac1"; 
-	private String dbId = "root";
-	private String dbPw = "mysql";
+	// 커넥션풀처리로인한 미사용
+	// private String dbType = "com.mysql.cj.jdbc.Driver";
+	// private String dbUrl = "jdbc:mysql://localhost:3306/jdbcprac1"; 
+	// private String dbId = "root";
+	// private String dbPw = "mysql";
 	private DataSource ds = null;
 	
 	// 생성할 때 자동으로 Class.forName()을 실행하게 만듭니다.

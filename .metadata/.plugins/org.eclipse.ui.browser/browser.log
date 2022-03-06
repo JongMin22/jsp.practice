@@ -304,3 +304,11 @@
 2월 28, 2022 09:50:37.47 [4316:2684:0228/095037.046:ERROR:device_event_log_impl.cc(214)] [09:50:37.047] USB: usb_device_handle_win.cc:1049 Failed to read descriptor from node connection: 시스템에 부착된 장치가 작동하지 않습니다. (0x1F)
 2월 28, 2022 10:22:55.242 [4316:2684:0228/102255.241:ERROR:interface_endpoint_client.cc(658)] Message 0 rejected by interface blink.mojom.WidgetHost
 2월 28, 2022 11:55:32.616 [4316:12676:0228/115532.616:ERROR:database.cc(1777)] History SQLite error: code 1555 errno 0: UNIQUE constraint failed: context_annotations.visit_id sql: INSERT INTO context_annotations( visit_id,context_annotation_flags,duration_since_last_visit,page_end_reason,total_foreground_duration )VALUES(?,?,?,?,?)
+
+3월 04, 2022 14:19:48.114 NEW SESSION
+3월 04, 2022 14:19:48.114 [16040:21380:0304/141948.105:ERROR:chrome_browser_main_extra_parts_metrics.cc(227)] START: ReportBluetoothAvailability(). If you don't see the END: message, this is crbug.com/1216328.
+3월 04, 2022 14:19:48.115 [16040:21380:0304/141948.105:ERROR:chrome_browser_main_extra_parts_metrics.cc(230)] END: ReportBluetoothAvailability()
+3월 04, 2022 14:19:48.115 [16040:21380:0304/141948.105:ERROR:chrome_browser_main_extra_parts_metrics.cc(235)] START: GetDefaultBrowser(). If you don't see the END: message, this is crbug.com/1216328.
+3월 04, 2022 14:19:48.115 [16040:21380:0304/141948.106:ERROR:chrome_browser_main_extra_parts_metrics.cc(239)] END: GetDefaultBrowser()
+3월 04, 2022 14:19:48.115 [16040:17492:0304/141948.108:ERROR:device_event_log_impl.cc(214)] [14:19:48.109] USB: usb_device_handle_win.cc:1049 Failed to read descriptor from node connection: 시스템에 부착된 장치가 작동하지 않습니다. (0x1F)
+3월 04, 2022 14:19:48.131 [16040:17492:0304/141948.131:ERROR:device_event_log_impl.cc(214)] [14:19:48.131] USB: usb_device_handle_win.cc:1049 Failed to read descriptor from node connection: 시스템에 부착된 장치가 작동하지 않습니다. (0x1F)
