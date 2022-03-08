@@ -76,6 +76,30 @@ public class BoardVO {
 
 
 
+	public Date getBdate() {
+		return bdate;
+	}
+
+
+
+	public void setBdate(Date bdate) {
+		this.bdate = bdate;
+	}
+
+
+
+	public Date getMdate() {
+		return mdate;
+	}
+
+
+
+	public void setMdate(Date mdate) {
+		this.mdate = mdate;
+	}
+
+
+
 	public int getHit() {
 		return hit;
 	}

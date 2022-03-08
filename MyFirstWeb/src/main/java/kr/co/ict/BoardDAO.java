@@ -68,7 +68,7 @@ public class BoardDAO {
 			// Connection, PreparedStatement, ResultSet을 선언합니다.
 				try {
 					con = ds.getConnection();
-				String sql = "SELECT * FROM boardinfo";
+				String sql = "SELECT * FROM boardinfo ORDER BY board_num DESC";
 				pstmt = con.prepareStatement(sql);
 				rs = pstmt.executeQuery();
 				
@@ -100,4 +100,81 @@ public class BoardDAO {
 				}
 			return boardList;
 			}	
+		public void insertBoard(String title, String content, String writer) {
+				
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			
+		
+			try {
+				con = ds.getConnection();
+		
+			String sql = "INSERT INTO boardinfo(title, content, writer) VALUE (?,?,?)";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, title);
+			pstmt.setString(2, content);
+			pstmt.setString(3, writer);
+			pstmt.executeUpdate();
+			}
+			
+			
+			catch(Exception e) {
+				e.printStackTrace();
+				}
+			finally{
+				try {
+				con.close();
+				pstmt.close();
+				
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
+			}	
+	}
+		// 글 한개가 필요한 상황이므로 
+		// SELECT * FROM boradinfo WHERE board_num=?;
+		public BoardVO getBoardDetail(int board_num) {
+		// try 블럭 진입 전 Connection, PrepareStatement, ResultSet 선언
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			BoardVO board = null;
+		// Connection, PreparedStatement, ResultSet을 선언합니다.
+			try {
+				con = ds.getConnection();
+			String sql = "SELECT * FROM boardinfo WHERE board_num=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, board_num);
+			rs = pstmt.executeQuery();
+			
+			//UserVO ArrayList에 rs에 든 모든 자료를 저장해주세요.
+			// int board_num, String title, String content, String writer, Date bdate, Date mdate, int hit
+			// 해당 변수를 이용해 BoardVO를 생성하면 됩니다.
+			if(rs.next()) {
+			int boardNum = rs.getInt("board_num");
+			String title = rs.getString("title");
+			String content = rs.getString("content");
+			String writer = rs.getString("writer");
+			Date bdate = rs.getDate("bdate");
+			Date mdate = rs.getDate("mdate");
+			int hit = rs.getInt("hit");
+			board = new BoardVO(boardNum,title,content,writer,bdate,mdate,hit);
+		
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+			finally{
+				try {
+				con.close();
+				pstmt.close();
+				rs.close();
+				} catch(SQLException se) {
+					se.printStackTrace();
+				}
+			}
+		return board;
+		}	
+		
+		
 }
