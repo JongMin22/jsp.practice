@@ -175,7 +175,7 @@ public class BoardDAO {
 			}
 		return board;
 		}	
-<<<<<<< HEAD
+
 		// deleteBoard()메서드를 만들어서 삭제처리가 되게 맍들어주시고
 		// 서블릿에서 해당 메서드를 호출해 실제로 삭제버튼을 누르면 DB에서 해당 번호 글이 삭제되게 해주세요.
 		public void deleteBoard(int board_num) {
@@ -238,8 +238,6 @@ public void updateBoard(int board_num,String title, String content) {
 				}
 			}	
 	}
-=======
-		
->>>>>>> c0f3902616b9fe9c8747a7ccbefe3ac990838fb5
+
 		
 }
