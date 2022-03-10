@@ -18,6 +18,7 @@
 마지막 수정날짜 : <input type="text" value="${board.mdate }" readonly/><br/>
 본문 : <textarea rows="15" cols="50">${board.content}</textarea><br/>
 <a href="http://localhost:8181/MyFirstWeb/boardList">목록으로 돌아가기</a>
+<<<<<<< HEAD
 <form action="http://localhost:8181/MyFirstWeb/boardDelete" method="post">
 <!-- 내부를 조금 고쳐서 글 번호를 넘기도록 만들어 저한테 보내주세요. -->
 <input type="hidden" value="${board.board_num}" name="boardnum"/>
@@ -27,6 +28,8 @@
 <input type="hidden" value="${board.board_num}" name="boardnum"/>
 <input type="submit" value="수정하기"/>
 </form>
+=======
+>>>>>>> c0f3902616b9fe9c8747a7ccbefe3ac990838fb5
  
 </body>
 </html>
