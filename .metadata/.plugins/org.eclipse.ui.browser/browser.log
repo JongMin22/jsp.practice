@@ -312,3 +312,6 @@
 3월 04, 2022 14:19:48.115 [16040:21380:0304/141948.106:ERROR:chrome_browser_main_extra_parts_metrics.cc(239)] END: GetDefaultBrowser()
 3월 04, 2022 14:19:48.115 [16040:17492:0304/141948.108:ERROR:device_event_log_impl.cc(214)] [14:19:48.109] USB: usb_device_handle_win.cc:1049 Failed to read descriptor from node connection: 시스템에 부착된 장치가 작동하지 않습니다. (0x1F)
 3월 04, 2022 14:19:48.131 [16040:17492:0304/141948.131:ERROR:device_event_log_impl.cc(214)] [14:19:48.131] USB: usb_device_handle_win.cc:1049 Failed to read descriptor from node connection: 시스템에 부착된 장치가 작동하지 않습니다. (0x1F)
+
+3월 07, 2022 09:34:12.159 NEW SESSION
+3월 07, 2022 09:34:12.159 [5940:7136:0307/093412.157:ERROR:device_event_log_impl.cc(214)] [09:34:12.157] Bluetooth: bluetooth_adapter_winrt.cc:1075 Getting Default Adapter failed.

@@ -13,8 +13,10 @@
     <fullyQualifiedTypeName name="javax.naming.InitialContext"/>
     <fullyQualifiedTypeName name="javax.servlet.RequestDispatcher"/>
     <fullyQualifiedTypeName name="java.sql.Date"/>
-    <fullyQualifiedTypeName name="kr.co.ict.BoardDAO"/>
     <fullyQualifiedTypeName name="kr.co.ict.servelt.BoardListServlet"/>
     <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="javax.print.attribute.HashPrintRequestAttributeSet"/>
     <fullyQualifiedTypeName name="kr.co.ict.BoardVO"/>
+    <fullyQualifiedTypeName name="kr.co.ict.BoardDAO"/>
+    <fullyQualifiedTypeName name="java.lang.Integer"/>
 </qualifiedTypeNameHistroy>
