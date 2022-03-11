@@ -1,5 +1,10 @@
 package kr.co.ict;
-import java.sql.*;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,222 +12,257 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+// DAO í´ë˜ìŠ¤ëŠ” DBì—°ë™ì„ ì „ë‹´í•˜ì—¬ ì²˜ë¦¬í•©ë‹ˆë‹¤.
 public class UserDAO {
-	//DAO Å¬·¡½º´Â DB¿¬µ¿À» Àü´ŞÇÏ¿© Ã³¸®ÇÕ´Ï´Ù.
 
-	//DBÁ¢¼Ó¿¡ ÇÊ¿äÇÑ º¯¼öµéÀ» ¾Æ·¡¿¡ ¼±¾ğÇÕ´Ï´Ù.
-	// Ä¿³Ø¼ÇÇ®Ã³¸®·ÎÀÎÇÑ ¹Ì»ç¿ë
-	// private String dbType = "com.mysql.cj.jdbc.Driver";
-	// private String dbUrl = "jdbc:mysql://localhost:3306/jdbcprac1"; 
-	// private String dbId = "root";
-	// private String dbPw = "mysql";
+	// DBì ‘ì†ì— í•„ìš”í•œ ë³€ìˆ˜ë“¤ì„ ì•„ë˜ì— ì„ ì–¸í•©ë‹ˆë‹¤.
+	// ì»¤ë„¥ì…˜í’€ ì²˜ë¦¬ë¡œ ì¸í•œ ë¯¸ì‚¬ìš©
+	//private String dbType = "com.mysql.cj.jdbc.Driver";
+	//private String dbUrl = "jdbc:mysql://localhost:3306/jdbcprac1";
+	//private String dbId = "root";
+	//private String dbPw = "1111";
 	private DataSource ds = null;
 	
-	// »ı¼ºÇÒ ¶§ ÀÚµ¿À¸·Î Class.forName()À» ½ÇÇàÇÏ°Ô ¸¸µì´Ï´Ù.
-		// public UserDAO() {
-		// 	try {
-		//		Class.forName(dbType);
-		//		} catch(Exception e) {
-		//		e.printStackTrace();
-		//	}
-		// }
-		//  ½Ì±ÛÅÏ ÆĞÅÏ Ã³¸®.
-		//  DAO ³»ºÎ¿¡ 3. ¸â¹öº¯¼ö·Î UserDAO¸¦ ÇÏ³ª »ı¼ºÇØÁİ´Ï´Ù.
-		private static UserDAO dao = new UserDAO();
-		//  ½Ì±ÛÅÏÀº ¿äÃ»½Ã¸¶´Ù DAO¸¦ »õ·Î »ı¼ºÇÏÁö ¾Ê°í, ¸ÕÀú ÇÏ³ª¸¦ »ı¼ºÇØµĞ ´ÙÀ½
-		//  »ç¿ëÀÚ ¿äÃ»¶§´Â ÀÌ¹Ì »ı¼ºµÈ DAOÀÇ ÁÖ¼Ò°ª¸¸ °øÀ¯ÇØ¼­
-		//  DAO»ı¼º¿¡ ÇÊ¿äÇÑ ½Ã°£À» Àı¾àÇÏ±â À§ÇØ »ç¿ëÇÕ´Ï´Ù.
-		//  1.»ı¼ºÀÚ´Â privateÀ¸·Î Ã³¸®ÇØ ¿ÜºÎ¿¡¼­ »ı¼º¸í·ÉÀ» ³»¸± ¼ö ¾ø°Ô Ã³¸®ÇÕ´Ï´Ù.
-		private UserDAO() {
-
+	// ìƒì„±ìë¥¼ ì´ìš©í•´ ìƒì„±í•  ë•Œ ìë™ìœ¼ë¡œ Class.forName()ì„ ì‹¤í–‰í•˜ê²Œ ë§Œë“­ë‹ˆë‹¤.
+	// ì–´ë–¤ ì¿¼ë¦¬ë¬¸ì„ ì‹¤í–‰í•˜ë”ë¼ë„ ê³µí†µì ìœ¼ë¡œ í™œìš©í•˜ëŠ” ë¶€ë¶„
+	//public UserDAO() {
+	//	try {
+	//		Class.forName(dbType);
+	//	} catch (Exception e) {
+	//		e.printStackTrace();
+	//	}
+	//}
+	
+	// ì‹±ê¸€í„´ íŒ¨í„´ ì²˜ë¦¬.
+	// 3. DAO ë‚´ë¶€ì— ë©¤ë²„ë³€ìˆ˜ë¡œ UserDAOë¥¼ í•˜ë‚˜ ìƒì„±í•´ì¤ë‹ˆë‹¤.
+	private static UserDAO dao = new UserDAO();
+	// ì‹±ê¸€í„´ì€ ìš”ì²­ì‹œë§ˆë‹¤ DAOë¥¼ ë§¤ë²ˆ ìƒˆë¡œ ìƒì„±í•˜ì§€ ì•Šê³ , ë¨¼ì € í•˜ë‚˜ë¥¼ ìƒì„±í•´ë‘” ë‹¤ìŒ
+	// ì‚¬ìš©ì ìš”ì²­ë•ŒëŠ” ì´ë¯¸ ìƒì„±ëœ DAOì˜ ì£¼ì†Œê°’ë§Œ ê³µìœ í•´ì„œ 
+	// DAOìƒì„±ì— í•„ìš”í•œ ì‹œê°„ì„ ì ˆì•½í•˜ê¸° ìœ„í•´ ì‚¬ìš©í•©ë‹ˆë‹¤.
+	// 1. ìƒì„±ìëŠ” privateìœ¼ë¡œ ì²˜ë¦¬í•´ ì™¸ë¶€ì—ì„œ ìƒì„±ëª…ë ¹ì„ ë‚´ë¦´ ìˆ˜ ì—†ê²Œ ì²˜ë¦¬í•©ë‹ˆë‹¤.
+	private UserDAO() {
 		try {
 			Context ct = new InitialContext();
 			ds = (DataSource)ct.lookup("java:comp/env/jdbc/mysql");
-		}	 
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-}
 		}
-		
-		// 2. static Å°¿öµå¸¦ ÀÌ¿ëÇØ¼­ ´Ü ÇÑ¹ø¸¸ »ı¼ºÇÏ°í, ±× ÀÌÈÄ·Î´Â
-		// ÁÖ¼Ò¸¦ °øÀ¯ÇÏ´Â getInstance ¸Ş¼­µå¸¦ »ı¼ºÇÕ ´Ï´Ù.
-		public static UserDAO getInstance() {
-			if(dao == null) {
-				dao = new UserDAO();
-			}
-				
-			return dao;
+	}
+	
+	// 2. static í‚¤ì›Œë“œë¥¼ ì´ìš©í•´ì„œ ë‹¨ í•œë²ˆë§Œ ìƒì„±í•˜ê³ , ê·¸ ì´í›„ë¡œëŠ”
+	// ì£¼ì†Œë¥¼ ê³µìœ í•˜ëŠ” getInstance() ë©”ì„œë“œë¥¼ ìƒì„±í•©ë‹ˆë‹¤.
+	public static UserDAO getInstance() {
+		if(dao == null) {
+			dao = new UserDAO();
 		}
-	// user_list2.jspÀÇ ÄÚµå ·ÎÁ÷À» ´ëÃ¼ÇØº¸°Ú½À´Ï´Ù.
-	// user_list2.jsp¿¡¼­ ÀüÃ¼ À¯Àú ¸ñ·ÏÀ» ÇÊ¿ä·Î ÇÏ±â ¶§¹®¿¡
-	// ½ÇÇà °á°ú·Î List<UserVO>¸¦ ¸®ÅÏÇØÁà¾ß ÇÕ´Ï´Ù.
-	// ¿ª½Ã SELECT±¸¹®À» ½ÇÇàÇÒ¶§¿¡´Â ¸®ÅÏÀÚ·á°¡ ÇÊ¿äÇÏ°í
-	// INSERT, DELETE, UPDATE±¸¹®À» ½ÇÇàÇÒ¶§´Â ¸®ÅÏÀÚ·á°¡ voidÀÔ´Ï´Ù.
+		return dao;
+	}
+	
+	
+	
+	
+	
+	// user_list2.jspì˜ ì½”ë“œ ë¡œì§ì„ ëŒ€ì²´í•´ë³´ê² ìŠµë‹ˆë‹¤.
+	// user_list2.jspì—ì„œ ì „ì²´ ìœ ì € ëª©ë¡ì„ í•„ìš”ë¡œ í•˜ê¸° ë•Œë¬¸ì—
+	// ì‹¤í–‰ ê²°ê³¼ë¡œ List<UserVO>ë¥¼ ë¦¬í„´í•´ì¤˜ì•¼ í•©ë‹ˆë‹¤.
+	// ì—­ì‹œ SELECTêµ¬ë¬¸ì„ ì‹¤í–‰í• ë•Œì—ëŠ” ë¦¬í„´ìë£Œê°€ í•„ìš”í•˜ê³ 
+	// INSERT, DELETE, UPDATEêµ¬ë¬¸ì„ ì‹¤í–‰í• ë•ŒëŠ” ë¦¬í„´ìë£Œê°€ voidì…ë‹ˆë‹¤.
 	public List<UserVO> getAllUserList(){
-	// try ºí·° ÁøÀÔ Àü Connection, PrepareStatement, ResultSet ¼±¾ğ
+		// tryë¸”ëŸ­ ì§„ì… ì „ Connection, PreparedStatement, ResultSet ì„ ì–¸
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		// tryë¸”ëŸ­ ì§„ì… ì „ì— ArrayList ì„ ì–¸
 		List<UserVO> userList = new ArrayList<>();
-	// Connection, PreparedStatement, ResultSetÀ» ¼±¾ğÇÕ´Ï´Ù.
 		try {
+			// Connection, PreparedStatement, ResultSetì„ ì„ ì–¸í•©ë‹ˆë‹¤.
 			con = ds.getConnection();
-		String sql = "SELECT * FROM userinfo";
-		pstmt = con.prepareStatement(sql);
-		rs = pstmt.executeQuery();
-		
-		//UserVO ArrayList¿¡ rs¿¡ µç ¸ğµç ÀÚ·á¸¦ ÀúÀåÇØÁÖ¼¼¿ä.
-		while(rs.next()) {
-		String uName = rs.getString("uname");
-		String uId = rs.getString("uid");
-		String uPw = rs.getString("upw");
-		String uEmail = rs.getString("uemail");
-		UserVO userData = new UserVO(uName, uId, uPw, uEmail);
-		userList.add(userData);
-		}
-	}catch(Exception e) {
-		e.printStackTrace();
-	}
-		finally{
+			
+			// SELECT * FROM userinfo ì‹¤í–‰ ë° ResultSetì— ì €ì¥
+			String sql = "SELECT * FROM userinfo";
+			pstmt = con.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+
+			// UserVO ArrayListì— rsì— ë“  ëª¨ë“  ìë£Œë¥¼ ì €ì¥í•´ì£¼ì„¸ìš”.
+			while(rs.next()) {
+				String uName = rs.getString("uname");
+				String uId = rs.getString("uid");
+				String uPw = rs.getString("upw");
+				String uEmail = rs.getString("uemail");
+				UserVO userData = new UserVO(uName, uId, uPw, uEmail);
+				userList.add(userData);
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
 			try {
-			con.close();
-			pstmt.close();
-			rs.close();
+				con.close();
+				pstmt.close();
+				rs.close();
 			} catch(SQLException se) {
 				se.printStackTrace();
 			}
-		}
-	return userList;
-	}	
-	
-	
-	// login_update.jspÀÇ °æ¿ì ·Î±×ÀÎÇÑ À¯Àú ÇÑ ¸íÀÇ µ¥ÀÌÅÍ¸¸ DB¿¡¼­ ¾ò¾î¿É´Ï´Ù.
-	// µû¶ó¼­, ±× ÇÑ ¸íÀÇ À¯Àú µ¥ÀÌÅÍ¸¸À» ÀÌ¿ëÇØ SELECT±¸¹®À» ½á¾ßÇÕ´Ï´Ù.
-	// login_update.jsp »ó´ÜÀÇ sId º¯¼ö¿¡ µé¾îÀÖ´Â À¯Àú¸íÀ» ÀÌ¿ëÇØ À¯Àú µ¥ÀÌÅÍ¸¦ ¾ò¾î¿É´Ï´Ù.
-	
+		}	
+		return userList;
+	}
+
+	// login_update.jspì˜ ê²½ìš° ë¡œê·¸ì¸í•œ ìœ ì € í•œ ëª…ì˜ ë°ì´í„°ë§Œ DBì—ì„œ ì–»ì–´ì˜µë‹ˆë‹¤.
+	// ë”°ë¼ì„œ, ê·¸ í•œ ëª…ì˜ ìœ ì € ë°ì´í„°ë§Œì„ ì´ìš©í•´ SELECTêµ¬ë¬¸ì„ ì¨ì•¼í•©ë‹ˆë‹¤.
+	// login_update.jsp ìƒë‹¨ì˜ sId ë³€ìˆ˜ì— ë“¤ì–´ìˆëŠ” ìœ ì €ëª…ì„ ì´ìš©í•´ ìœ ì €ë°ì´í„°ë¥¼ ì–»ì–´ì˜µë‹ˆë‹¤.
 	public UserVO getUserData(String sId) {
-		// try ºí·° ÁøÀÔ Àü Connection, PrepareStatement, ResultSet ¼±¾ğ
-				Connection con = null;
-				PreparedStatement pstmt = null;
-				ResultSet rs = null;
-				
-				String tName =null;
-				String tEmail=null;
-				
-			// Connection, PreparedStatement, ResultSetÀ» ¼±¾ğÇÕ´Ï´Ù.
-				try {
-					con = ds.getConnection();
-				String sql = "SELECT * FROM userinfo WHERE uid=?";
-				pstmt = con.prepareStatement(sql);
-				rs = pstmt.executeQuery();
-				pstmt.setString(1, sId);
-				if(rs.next()){ 
-					 tName = rs.getString("uname");
-					 tEmail = rs.getString("uemail");
-					 }
-				
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
-				finally{
-					try {
-					con.close();
-					pstmt.close();
-					rs.close();
-					} catch(SQLException se) {
-						se.printStackTrace();
-					}
-				}
-			return null;
-	}	 // DB¿¡¼­ UserVO¿¡ µ¥ÀÌÅÍ¸¦ ¹ŞÀº´ÙÀ½ null´ë½Å ¹Ş¾Æ¿Â µ¥ÀÌÅÍ¸¦ ¸®ÅÏÇÏ¼¼¿ä.
-	public void updateCheck(String sId ,String uname, String upw, String uemail) {
-		// Connection, PreparedStatement, ResultSet º¯¼ö ¼±¾ğ
+		// ì ‘ì†ë¡œì§ì€ getAllUserList()ì™€ í° ì°¨ì´ê°€ ì—†ê³  ì¿¼ë¦¬ë¬¸ë§Œ ì¢€ ë‹¤ë¦…ë‹ˆë‹¤.
+		
+		// 1. Connection, PreparedStatement, ResultSet ë³€ìˆ˜ ì„ ì–¸ë§Œ í•´ì£¼ì„¸ìš”.
+		// UserVO ë³€ìˆ˜ ì„ ì–¸
+		// tryë¸”ëŸ­ ì™¸ë¶€ì—ì„œ ì¨ì•¼í•˜ëŠ”(Connection, PreparedStatment, ResultSetì€ finallyë¸”ëŸ­ì—ì„œë„ ì‚¬ìš©)
+		// (UserVOëŠ” returnêµ¬ë¬¸ì—ì„œ ì‚¬ìš©)ê²ƒë“¤ì€ tryì§„ì… ì „ì— ë¨¼ì € ì„ ì–¸í•©ë‹ˆë‹¤.
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		
-	// tryºí·° ³»ºÎ¿¡ DB¿¬°á
+		ResultSet rs = null;
+		UserVO user = null;
+		// 2. tryë¸”ëŸ­ ë‚´ë¶€ì—ì„œ DBì—°ê²°ì„ í•´ì£¼ì„¸ìš”. í•„ìš”í•œ URL, ID, PWëŠ” ìƒë‹¨ì— ë©¤ë²„ë³€ìˆ˜ë¡œ ì´ë¯¸ ì¡´ì¬í•©ë‹ˆë‹¤.
 		try {
 			con = ds.getConnection();
-	// Äõ¸®¹®À» ³¯·Á¼­ rs¿¡ DB¿¡¼­ °¡Á®¿Â Á¤º¸¸¦ ¹Ş¾ÆÁÖ¼¼¿ä.
-		String sql = "UPDATE userinfo SET upw=?, uname=?, uemail=? WHERE uid =?";
-		pstmt = con.prepareStatement(sql);
-		pstmt.setString(1, upw);
-		pstmt.setString(2, uname);
-		pstmt.setString(3, uemail);
-		pstmt.setString(4, sId);
-		pstmt.executeUpdate();
-		}
-		
-		// UserVO º¯¼ö¸¦ ¼±¾ğÇÏ°í, rs¿¡ ÀúÀåµÈ µ¥ÀÌÅÍ¸¦ UserVO¿¡ ´ã½À´Ï´Ù.
-		catch(Exception e) {
-			e.printStackTrace();
-			}
+			// 3. ì¿¼ë¦¬ë¬¸ì„ ë‚ ë ¤ì„œ rsì— DBì—ì„œ ê°€ì ¸ì˜¨ ì •ë³´ë¥¼ ë°›ì•„ì£¼ì„¸ìš”.
+			// ì¿¼ë¦¬ë¬¸ : SELECT * FROM userinfo WHERE uid=?
+			String sql = "SELECT * FROM userinfo WHERE uid=?";
+			pstmt = con.prepareStatement(sql);// ì¿¼ë¦¬ë¬¸ ì„¸íŒ…
+			pstmt.setString(1, sId);// ?ë¶€ë¶„ ì±„ìš°ê¸°
 			
-							
+			rs = pstmt.executeQuery(); // DBì— ì¿¼ë¦¬ë¬¸ ë‚ ë¦¬ê³  ìë£Œ ë°›ì•„ rsì— ì €ì¥í•˜ê¸°.
+			// 4. rsì— ì €ì¥ëœ ë°ì´í„°ë¥¼ UserVOì— ë‹´ìŠµë‹ˆë‹¤.
+			if(rs.next()) {
+				String uName = rs.getString("uname");
+				String uId = rs.getString("uid");
+				String uPw = rs.getString("upw");
+				String uEmail = rs.getString("uemail");
+				user = new UserVO(uName, uId, uPw, uEmail);
+			}
 		
+		// 5. catch, finally ë¸”ëŸ­ì„ ì‘ì„±í•´ì£¼ì‹œê³  finallyì—ì„œ ìì›íšŒìˆ˜ê¹Œì§€ ë§ˆì³ì£¼ì„¸ìš”.
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				// .close()ëŠ” ë¬´ì¡°ê±´ tryë¸”ëŸ­ì— ìˆì–´ì•¼ í•˜ê¸° ë•Œë¬¸ì— finally ë‚´ë¶€ì—ì„œ ì¶”ê°€ë¡œ tryë¸”ëŸ­ ì„¤ì •
+				con.close(); 
+				pstmt.close();
+				rs.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return user;// DBì—ì„œ UserVOì— ë°ì´í„°ë¥¼ ë°›ì•„ì£¼ì‹  ë‹¤ìŒ nullëŒ€ì‹  ë°›ì•„ì˜¨ ë°ì´í„°ë¥¼ ë¦¬í„´í•˜ì„¸ìš”.
 	}
-
-public void deleteUser(String sId) {
-		
+	
+	// updateCheckì— í•„ìš”í•œ userUpdateë©”ì„œë“œë¥¼ ì•„ë˜ì— ì •ì˜í•´ì£¼ì„¸ìš”.
+	// UPDATEêµ¬ë¬¸ì„ ì‹¤í–‰í•˜ê¸° ë•Œë¬¸ì— ë¦¬í„´ ìë£Œê°€ í•„ìš”ì—†ê³ 
+	// update_check.jspì— ìˆëŠ” ì¿¼ë¦¬ë¬¸ì„ ì‹¤í–‰í•˜ê¸° ìœ„í•´
+	// id, pw, name, emailì •ë³´ë¥¼ ëª¨ë‘ ë°›ì•„ì˜µë‹ˆë‹¤.
+	public void updateCheck(String uId, String uPw, String uName, String uEmail) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
+		// ResultSetì€ SELECTêµ¬ë¬¸ì—ë§Œ í•„ìš”í•¨.
 		
-	
 		try {
 			con = ds.getConnection();
-	
-		String sql = "DELETE FROM userinfo WHERE uid =?";
-		pstmt = con.prepareStatement(sql);
-		pstmt.setString(1, sId);
-		pstmt.executeUpdate();
-		}
-		
-		
-		catch(Exception e) {
-			e.printStackTrace();
-			}
-		finally{
-			try {
-			con.close();
-			pstmt.close();
 			
+			String sql =  "UPDATE userinfo SET upw=?, uname=?, uemail=? WHERE uid=?";
+			pstmt = con.prepareStatement(sql);// ì¿¼ë¦¬ë¬¸ ì„¸íŒ…
+			pstmt.setString(1, uPw);
+			pstmt.setString(2, uName);
+			pstmt.setString(3, uEmail);
+			pstmt.setString(4, uId);
+						
+			pstmt.executeUpdate();//executeQuery(), executeUpdate();
+		
+		// 5. catch, finally ë¸”ëŸ­ì„ ì‘ì„±í•´ì£¼ì‹œê³  finallyì—ì„œ ìì›íšŒìˆ˜ê¹Œì§€ ë§ˆì³ì£¼ì„¸ìš”.
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				// .close()ëŠ” ë¬´ì¡°ê±´ tryë¸”ëŸ­ì— ìˆì–´ì•¼ í•˜ê¸° ë•Œë¬¸ì— finally ë‚´ë¶€ì—ì„œ ì¶”ê°€ë¡œ tryë¸”ëŸ­ ì„¤ì •
+				con.close(); 
+				pstmt.close();
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
-		}	
-	}		
-
-	public void insertUser(String uId ,String uName, String uPw, String uEmail) {
-		
+		}
+	}
+	
+	// member_out.jspì—ì„œ ì‚¬ìš©í•  íƒˆí‡´ê¸°ëŠ¥ì„ DAOë¡œ ì´ì „ì‹œí‚¤ê² ìŠµë‹ˆë‹¤.
+	// ë©”ì„œë“œëª…ì€ deleteUser(String sId) ì…ë‹ˆë‹¤.
+	// DAOíŒŒì¼ì— ìƒì„±í•˜ì‹  í›„, member_out.jspì—ì„œë„ í•´ë‹¹ ë©”ì„œë“œë¥¼ ì“°ë„ë¡ ê³ ì³ì£¼ì„¸ìš”.
+	// 1. DAOì— ë©”ì„œë“œ ìƒì„±í›„ ë°”ë¡œ ì½”ë“œë¥¼ ì €í•œí…Œ ë³´ë‚´ì£¼ì‹œê³ 
+	// 2. ê³ ì¹œ ë¡œì§ì„ ì‹¤í–‰í•˜ëŠ” member_out.jspì˜ ìŠ¤í¬ë¦½íŠ¸ë¦¿ë„ ì¶”ê°€ë¡œ ë³´ë‚´ì£¼ì„¸ìš”.
+	public void deleteUser(String sId) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
+		// ResultSetì€ SELECTêµ¬ë¬¸ì—ë§Œ í•„ìš”í•¨.
 		
-	
 		try {
 			con = ds.getConnection();
-	
-		String sql = "INSERT INTO userinfo VALUES (?,?,?,?)";
-		pstmt = con.prepareStatement(sql);
-		pstmt.setString(1, uName);
-		pstmt.setString(2, uId);
-		pstmt.setString(3, uPw);
-		pstmt.setString(4, uEmail);
-		pstmt.executeUpdate();
-		}
-		
-		
-		catch(Exception e) {
-			e.printStackTrace();
-			}
-		finally{
-			try {
-			con.close();
-			pstmt.close();
 			
+			String sql =  "DELETE FROM userinfo WHERE uid=?";
+			pstmt = con.prepareStatement(sql);// ì¿¼ë¦¬ë¬¸ ì„¸íŒ…
+			pstmt.setString(1, sId);
+
+			pstmt.executeUpdate();//executeQuery(), executeUpdate();
+		
+		// 5. catch, finally ë¸”ëŸ­ì„ ì‘ì„±í•´ì£¼ì‹œê³  finallyì—ì„œ ìì›íšŒìˆ˜ê¹Œì§€ ë§ˆì³ì£¼ì„¸ìš”.
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				// .close()ëŠ” ë¬´ì¡°ê±´ tryë¸”ëŸ­ì— ìˆì–´ì•¼ í•˜ê¸° ë•Œë¬¸ì— finally ë‚´ë¶€ì—ì„œ ì¶”ê°€ë¡œ tryë¸”ëŸ­ ì„¤ì •
+				con.close(); 
+				pstmt.close();
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
-		}	
+		}
+	}
+	
+	
+	// íšŒì›ê°€ì… ë¡œì§ insertUser(String uName, String uId, String uPw, String uEmail)ë¥¼ ì²˜ë¦¬í•´ì£¼ì„¸ìš”.
+	public void insertUser(String uName, String uId, String uPw, String uEmail) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		// ResultSetì€ SELECTêµ¬ë¬¸ì—ë§Œ í•„ìš”í•¨.
+		
+		try {
+			con = ds.getConnection();
+			
+			String sql =  "INSERT INTO userinfo VALUES(?,?,?,?)";
+			pstmt = con.prepareStatement(sql);// ì¿¼ë¦¬ë¬¸ ì„¸íŒ…
+			pstmt.setString(1, uName);
+			pstmt.setString(2, uId);
+			pstmt.setString(3, uPw);
+			pstmt.setString(4, uEmail);
+
+			pstmt.executeUpdate();//executeQuery(), executeUpdate();
+		
+		// 5. catch, finally ë¸”ëŸ­ì„ ì‘ì„±í•´ì£¼ì‹œê³  finallyì—ì„œ ìì›íšŒìˆ˜ê¹Œì§€ ë§ˆì³ì£¼ì„¸ìš”.
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				// .close()ëŠ” ë¬´ì¡°ê±´ tryë¸”ëŸ­ì— ìˆì–´ì•¼ í•˜ê¸° ë•Œë¬¸ì— finally ë‚´ë¶€ì—ì„œ ì¶”ê°€ë¡œ tryë¸”ëŸ­ ì„¤ì •
+				con.close(); 
+				pstmt.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }
-	}
+
+
+
+
+
+
+
+
 

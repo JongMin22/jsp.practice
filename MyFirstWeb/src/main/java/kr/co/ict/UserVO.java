@@ -1,16 +1,17 @@
 package kr.co.ict;
 
 public class UserVO {
-	// VO´Â Æ¯Á¤ Å×ÀÌºíÀÇ ÀÚ·á¸¦ ÀÚ¹ÙÇü½ÄÀ¸·Î ÀúÀåÇÏ±â À§ÇØ ¼±¾ðÇÕ´Ï´Ù.
-	// ±×·¡¼­ SQµ¥ÀÌÅÍ¸¦ ÀÚ¹Ù·Î ¿Å°Ü¿À±â À§ÇØ¼­
-	// 1.´ã´çÇÒ Å×ÀÌºíÀÇ ÄÃ·³À» ÀüºÎ º¯¼ö·Î ¸¸µì´Ï´Ù.
+	// VOëŠ” íŠ¹ì • í…Œì´ë¸”ì˜ ìžë£Œë¥¼ ìžë°”í˜•ì‹ìœ¼ë¡œ ì €ìž¥í•˜ê¸° ìœ„í•´ ì„ ì–¸í•©ë‹ˆë‹¤.
+	// ê·¸ëž˜ì„œ SQL ë°ì´í„°ë¥¼ ìžë°”ë¡œ ì˜®ê²¨ì˜¤ê¸° ìœ„í•´ì„œ 
+	// 1. ë‹´ë‹¹í•  í…Œì´ë¸”ì˜ ì»¬ëŸ¼ì„ ì „ë¶€ ë³€ìˆ˜ë¡œ ë§Œë“­ë‹ˆë‹¤.
 	private String uName;
 	private String uId;
 	private String uPw;
 	private String uEmail;
-	// 2. getter, setter, »ý¼ºÀÚ¸¦ ¸¸µé¾îÁÖ¼¼¿ä.
-	// source -> generate getter and setter
-	// source -> Constructing user Field  
+	
+	// 2. ìƒì„±ìž, getter, setterë¥¼ ë§Œë“¤ì–´ì£¼ì„¸ìš”.
+	// ìš°í´ë¦­ -> source -> generate setters and getters (setter, getter)
+	// ìš°í´ë¦­ -> source -> generate constructor using fields (ìƒì„±ìž)
 	public UserVO(String uName, String uId, String uPw, String uEmail) {
 		super();
 		this.uName = uName;
@@ -18,9 +19,11 @@ public class UserVO {
 		this.uPw = uPw;
 		this.uEmail = uEmail;
 	}
+	
 	public String getuName() {
 		return uName;
 	}
+
 	public void setuName(String uName) {
 		this.uName = uName;
 	}
@@ -42,13 +45,13 @@ public class UserVO {
 	public void setuEmail(String uEmail) {
 		this.uEmail = uEmail;
 	}
-	// 3. ¼±ÅÃ toString¸¸µé±â
-	// toStringÀº ÄÜ¼ÖÀÌ³ª È­¸é¿¡ UserVO¸¦ Âï¾úÀ»¶§ ÁÖ¼Ò´ë½Å µ¥ÀÌÅÍ°¡ ³ª¿Àµµ·Ï ÇØ ÁÝ´Ï´Ù.
+	
+	// 3. (ì„ íƒ)toStringì„ ë§Œë“¤ì–´ì£¼ì„¸ìš”.
+	// toStringì€ ì½˜ì†”ì´ë‚˜ í™”ë©´ì— UserVOë¥¼ ì°ì—ˆì„ë•Œ ì£¼ì†ŒëŒ€ì‹  ë‚´ë¶€ ë°ì´í„°ê°€ ë‚˜ì˜¤ë„ë¡ í•´ ì¤ë‹ˆë‹¤.
 	// source -> generate toString()
 	@Override
 	public String toString() {
 		return "UserVO [uName=" + uName + ", uId=" + uId + ", uPw=" + uPw + ", uEmail=" + uEmail + "]";
 	}
-	
 	
 }

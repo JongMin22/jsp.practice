@@ -7,10 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form action="jstl_choose.jsp">
-<input type="text" name="lang" placeholder="언어"/><br/>
-<input type="submit" value="제출"/><br/>
-<input type="reset" value="초기화"/><br/>
-</form>
+	<form action="jstl_choose.jsp" method="post">
+		<input type="text" name="lang" placeholder="사용 언어">
+		<input type="submit" value="제출">
+	</form>
 </body>
 </html>

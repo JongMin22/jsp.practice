@@ -7,10 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form action="http://localhost:8181/MyFirstWeb/getServlet" method="post">
-<input type="text" name="name" placeholder="이름"/>
-<input type="submit" value="제출"/>
-</form>
-
+	<form action="http://localhost:8181/MyFirstWeb/getServlet" method="post">
+	
+		<input type="submit" value="post로 접속">
+	</form>
 </body>
 </html>

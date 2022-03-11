@@ -9,31 +9,34 @@
 <title>Insert title here</title>
 </head>
 <body>
-
-	<table class="table table-sm">
-<thead>
-  <tr>
-  <th>글번호</th>
-  <th>글제목</th>
-  <th>글쓴이</th>
-  <th>쓴날짜</th>
-  <th>최종수정날짜</th>
-  <th>조회수</th>
-  </tr>
-  </thead>
-  <tbody>
- <c:forEach var="board" items="${boardList}">
- <tr>
-  <td>${ board.board_num}</td>
-  <td><a href="http://localhost:8181/MyFirstWeb/boarddetail?board_num=${board.board_num}">${ board.title}</a></td>
-  <td>${ board.writer}</td>
-  <td>${ board.bdate}</td>
-  <td>${ board.mdate}</td>
-  <td>${ board.hit}</td>
-  
-  </tr>
-</c:forEach>
-</tbody>
-</table>
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>글번호</th>
+				<th>글제목</th>
+				<th>글쓴이</th>
+				<th>쓴날짜</th>
+				<th>최종수정날짜</th>
+				<th>조회수</th>
+			</tr>
+		</thead>
+		<tbody>
+			<c:forEach var="board" items="${boardList}">
+				<tr>
+					<td>${board.board_num }</td>
+					<td><a href="http://localhost:8181/MyFirstWeb/boarddetail?board_num=${board.board_num}">${board.title }</a></td>
+					<td>${board.writer }</td>
+					<td>${board.bDate }</td>
+					<td>${board.mDate }</td>
+					<td>${board.hit }</td>
+				</tr>
+			</c:forEach>
+		</tbody>
+	</table>
+	<form action="http://localhost:8181/MyFirstWeb/boardInsertForm" method="get">
+	<button>글쓰기</button>
+	</form>
+	
+	
 </body>
 </html>
