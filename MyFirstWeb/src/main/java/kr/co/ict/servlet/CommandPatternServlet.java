@@ -29,6 +29,23 @@ public class CommandPatternServlet extends HttpServlet {
 		System.out.println(".test 패턴으로 접속 감지됨.");
 		String uri = request.getRequestURI();
 		System.out.println(uri);
+		if(uri.equals("/MyFirstWeb/main.test")) {
+			System.out.println("메인페이지로 이동합니다");
+			response.sendRedirect("http://localhost:8181/MyFirstWeb/");
+			}
+		else if(uri.equals("/MyFirstWeb/board.test")) {
+			System.out.println("게시판페이지로 이동합니다.");
+		}
+		else if(uri.equals("/MyFirstWeb/boardlist.test")) {
+			response.sendRedirect("http://localhost:8181/MyFirstWeb/boardList");
+		}
+		else if(uri.equals("/MyFirstWeb/login.test")) {
+			response.sendRedirect("http://localhost:8181/MyFirstWeb/users/login_form.jsp");
+		}
+		else {
+			System.out.println("메인페이지로 이동합니다");
+			response.sendRedirect("http://localhost:8181/MyFirstWeb/");
+		}
 	}
 
 	/**

@@ -42,7 +42,7 @@ public class BoardDetailServlet extends HttpServlet {
 		// dao에서 해당 글번호에 대한 정보를 가져오고
 		BoardVO board = dao.getBoardDetail(bNum);
 		// 정보가 제대로 들어왔는지 디버깅 해보겠습니다.
-		//System.out.println(board);
+		System.out.println(board);
 		// 데이터 바인딩
 		request.setAttribute("board", board);
 		// 디테일페이지로 포워딩(강사 기준 boarddetail.jsp)후 화면에 데이터 나오는지 체크

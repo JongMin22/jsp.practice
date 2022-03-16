@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,7 +25,7 @@
 			<c:forEach var="board" items="${boardList}">
 				<tr>
 					<td>${board.board_num }</td>
-					<td><a href="http://localhost:8181/MyFirstWeb/boarddetail?board_num=${board.board_num}">${board.title }</a></td>
+					<td><a href="http://localhost:8181/MyFirstWeb/boardDetail.do?board_num=${board.board_num}">${board.title }</a></td>
 					<td>${board.writer }</td>
 					<td>${board.bDate }</td>
 					<td>${board.mDate }</td>
@@ -33,10 +34,12 @@
 			</c:forEach>
 		</tbody>
 	</table>
-	<form action="http://localhost:8181/MyFirstWeb/boardInsertForm" method="get">
+	
+	<c:if test="${sId ne null }">
+	<form action="http://localhost:8181/MyFirstWeb/insertForm.do" method="get">
 	<button>글쓰기</button>
 	</form>
-	
+	</c:if>
 	
 </body>
 </html>
