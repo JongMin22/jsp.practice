@@ -17,11 +17,7 @@ public class BoardInsertFormService implements IBoardService{
 		
 		System.out.println("세션아이디 확인 : " + sId);
 		request.setAttribute("sId", sId);
-		if(sId == null) {
-			request.setAttribute("sId", sId);
-			RequestDispatcher dp = request.getRequestDispatcher("/boardList.do");
-			dp.forward(request, response);
-		}
+		
 		
 		
 	}
