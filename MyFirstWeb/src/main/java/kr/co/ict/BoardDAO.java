@@ -36,7 +36,7 @@ public class BoardDAO {
 	}
 	
 	
-	public List<BoardVO> getAllBoardList(){
+	public List<BoardVO> getAllBoardList(int pageNum){
 		
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -46,11 +46,11 @@ public class BoardDAO {
 		try {
 			
 			con = ds.getConnection();
+			int limitNum = ((pageNum - 1)* 20);
 			
-			
-			String sql = "SELECT * FROM boardtbl ORDER BY board_num DESC";
+			String sql = "SELECT * FROM boardtbl ORDER BY board_num DESC limit ?, 20";
 			pstmt = con.prepareStatement(sql);
-			
+			pstmt.setInt(1, limitNum);
 			rs = pstmt.executeQuery();
 
 		
@@ -119,6 +119,7 @@ public class BoardDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		BoardVO board = null;
+		
 		try {
 			con = ds.getConnection();
 			String sql = "SELECT * FROM boardTbl WHERE board_num = ?";
@@ -136,11 +137,54 @@ public class BoardDAO {
 				Date mDate = rs.getDate("mdate");
 				int hit = rs.getInt("hit");
 				
-				uphit(boardNum);
+				
 				board = new BoardVO(boardNum, title, content, writer, bDate, mDate, hit);
 				
 			}
 
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				con.close();
+				pstmt.close();
+				rs.close();
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return board;	
+	}
+	// uphit 미포함
+	public BoardVO getBoardDetail2(int board_num) {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		BoardVO board = null;
+		
+		try {
+			con = ds.getConnection();
+			String sql = "SELECT * FROM boardTbl WHERE board_num = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, board_num);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				int boardNum = rs.getInt("board_num");
+				String title = rs.getString("title");
+				String content = rs.getString("content");
+				String writer = rs.getString("writer");
+				Date bDate = rs.getDate("bdate");
+				Date mDate = rs.getDate("mdate");
+				int hit = rs.getInt("hit");
+				
+				
+				board = new BoardVO(boardNum, title, content, writer, bDate, mDate, hit);
+				
+			}
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -211,9 +255,72 @@ public class BoardDAO {
 	}
 	// 서비스가 아닌 getBoardDetail 실행시 자동으로 같이 실행되도록 처리
 	// 글 제목을 클릭할때마다 조회수를 증가시키는 메서드
-	private void uphit(int bId){
-		System.out.println("현재 조회된 글 번호 : " + bId);
-		String sql = "UPDATE boardtbl SET hit = (hit + 1) WHERE boardnum=?";
+	public void uphit(int bId){
+		// update문에 맞는 접속 로직을 작성해주세요.
+		
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try {
+			
+			con = ds.getConnection();
+
+			String sql = "UPDATE boardtbl SET hit = (hit + 1) WHERE board_num=?";
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, bId);
+			
+
+		
+			pstmt.executeUpdate();
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				con.close();
+				pstmt.close();
+			} catch(SQLException se) {
+				se.printStackTrace();
+			}
+		}
+	}
+	// 페이징 처리를 위해 글 전체 개수를 구해오겠습니다.
+	// 하단에 getPageNum()을 작성해주세요
+	// 쿼리문은 SELECT COUNT(*) FROM boardTbl; 입니다.
+	
+public int getPageNum() {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int pageNum = 0;	
+		
+		
+		try {
+			con = ds.getConnection();
+			String sql = "SELECT COUNT(*) FROM boardTbl";
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				pageNum = rs.getInt(1);
+				
+				
+				
+				
+			}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				con.close();
+				pstmt.close();
+				rs.close();
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return pageNum;	
 	}
 }
 

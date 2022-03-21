@@ -35,6 +35,10 @@
 		</tbody>
 	</table>
 	
+	
+	
+	${dto}
+	
 	<c:if test="${sId ne null }">
 	<form action="http://localhost:8181/MyFirstWeb/insertForm.do" method="get">
 	<button>글쓰기</button>

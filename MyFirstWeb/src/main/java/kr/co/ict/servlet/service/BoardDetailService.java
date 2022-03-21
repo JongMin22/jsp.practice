@@ -13,11 +13,18 @@ public class BoardDetailService implements IBoardService {
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
 		
 		String sbNum = request.getParameter("board_num");
-		int bNum = Integer.parseInt(sbNum);
 		
-		
+		int bNum = 0;
+		if(sbNum !=null) {
+			bNum = Integer.parseInt(sbNum);
+			
+		}
+		else {
+			bNum=1;
+		}
 		
 		BoardDAO dao = BoardDAO.getInstance();
+		dao.uphit(bNum);
 		
 		BoardVO board = dao.getBoardDetail(bNum);
 		

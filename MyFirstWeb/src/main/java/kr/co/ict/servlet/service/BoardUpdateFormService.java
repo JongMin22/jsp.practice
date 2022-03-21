@@ -23,7 +23,7 @@ public class BoardUpdateFormService implements IBoardService {
 		// 1. dao생성
 		BoardDAO dao = BoardDAO.getInstance();
 		// 2. BoardVO 가져오기
-		BoardVO board = dao.getBoardDetail(bNum);
+		BoardVO board = dao.getBoardDetail2(bNum);
 		// 3. 가져온 데이터 바인딩
 		request.setAttribute("board", board);
 		HttpSession session = request.getSession();

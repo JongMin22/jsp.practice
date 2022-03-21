@@ -16,4 +16,5 @@
     <fullyQualifiedTypeName name="javax.servlet.RequestDispatcher"/>
     <fullyQualifiedTypeName name="java.io.IOException"/>
     <fullyQualifiedTypeName name="javax.servlet.ServletException"/>
+    <fullyQualifiedTypeName name="kr.co.ict.BoardDTO"/>
 </qualifiedTypeNameHistroy>
